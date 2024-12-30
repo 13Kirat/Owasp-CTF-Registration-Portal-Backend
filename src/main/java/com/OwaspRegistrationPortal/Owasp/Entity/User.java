@@ -1,5 +1,6 @@
 package com.OwaspRegistrationPortal.Owasp.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,7 +18,7 @@ public class User {
     @Column(name = "collage_name")
     private String collageName;
 
-    @Column(name = "thapar_email")
+    @Column(name = "thapar_email", unique = true)
     private String thaparEmail;
 
     @Column(name = "email", unique = true)
@@ -26,7 +27,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", unique = true)
     private String phoneNumber;
 
     @Column(name = "roll_no")
@@ -41,8 +42,8 @@ public class User {
     @Column(name = "position")
     private String position;
 
-//    @ManyToOne
-//    @JoinColumn(name = "team_id", referencedColumnName = "id")
-    @Column(name = "team")
-    private String team;
+    @ManyToOne
+    @JoinColumn(name = "team_id", referencedColumnName = "id")
+    @JsonIgnore
+    private Team team;
 }
