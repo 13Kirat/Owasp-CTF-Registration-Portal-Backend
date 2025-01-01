@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 public class Team {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "team_token", unique = true, nullable = false)
@@ -29,6 +29,6 @@ public class Team {
     private String leaderPhoneNo;
 
     // One team can have up to 5 users (members)
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "team")
     private List<User> members = new ArrayList<>();
 }

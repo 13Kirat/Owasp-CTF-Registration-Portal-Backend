@@ -42,6 +42,15 @@ public class User {
     @Column(name = "position")
     private String position;
 
+    @Column(name = "team_name")
+    private String teamName;
+
+    @Column(name = "verification_token", unique = true)
+    private String verificationToken;
+
+    @Column(name = "verified")
+    private boolean verified;
+
     @ManyToOne
     @JoinColumn(name = "team_id", referencedColumnName = "id")
     @JsonIgnore

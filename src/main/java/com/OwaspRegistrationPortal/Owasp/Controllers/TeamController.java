@@ -34,31 +34,38 @@ public class TeamController {
 
     // Create a team with a leader
     @PostMapping("/create")
-    public ResponseEntity<String> createTeam(@RequestBody Team team) {
+    public ResponseEntity<?> createTeam(@RequestBody Team team) {
         return teamService.createTeam(team);
     }
 
     // Endpoint to delete a team
     @DeleteMapping("/{teamId}")
-    public ResponseEntity<String> deleteTeam(@PathVariable Long teamId) {
-        return teamService.deleteTeam(teamId);
+    public ResponseEntity<?> deleteTeam(
+            @PathVariable Long teamId,
+            @RequestParam Long userId) {
+        try {
+            return teamService.deleteTeam(teamId, userId);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred while deleting the team: " + e.getMessage());
+        }
     }
 
     // Request to join a team
     @PostMapping("/{teamToken}/request-join")
-    public ResponseEntity<String> requestJoinTeam(@PathVariable String teamToken, @RequestBody User user) {
+    public ResponseEntity<?> requestJoinTeam(@PathVariable String teamToken, @RequestBody User user) {
         return teamService.requestJoinTeam(teamToken, user);
     }
 
     // Endpoint to get all join requests for a team
     @GetMapping("/{teamToken}/join-requests")
-    public ResponseEntity<List<JoinRequest>> getJoinRequests(@PathVariable String teamToken) {
+    public ResponseEntity<List<Map<String, Object>>> getJoinRequests(@PathVariable String teamToken) {
         return teamService.getJoinRequests(teamToken);
     }
 
     // Endpoint to respond to a join request (accept or reject)
     @PostMapping("/{teamId}/respond-request")
-    public ResponseEntity<String> respondJoinRequest(
+    public ResponseEntity<Map<String, Object>> respondJoinRequest(
             @PathVariable Long teamId,
             @RequestParam Long userId,
             @RequestParam boolean accept) {
@@ -67,8 +74,22 @@ public class TeamController {
 
     // Remove a member from a team
     @DeleteMapping("/{teamId}/remove-member/{memberId}")
-    public ResponseEntity<String> removeMember(@PathVariable Long teamId, @PathVariable Long memberId) {
+    public ResponseEntity<Map<String, Object>> removeMember(@PathVariable Long teamId, @PathVariable Long memberId) {
         return teamService.removeMemberFromTeam(teamId, memberId);
+    }
+
+    // Route to delete a join request
+    @DeleteMapping("/{teamId}/joinRequests/{userId}")
+    public ResponseEntity<Map<String, Object>> deleteJoinRequest(
+            @PathVariable Long teamId,
+            @PathVariable Long userId) {
+        return teamService.deleteJoinRequest(teamId, userId);
+    }
+
+    // Get join requests for a specific user
+    @GetMapping("/{userId}/joinRequests")
+    public ResponseEntity<?> getUserJoinRequests(@PathVariable Long userId) {
+        return teamService.getUserJoinRequests(userId);
     }
 }
 

@@ -9,4 +9,6 @@ public interface JoinRequestRepository extends JpaRepository<JoinRequest, Long> 
     List<JoinRequest> findByTeamIdAndStatus(Long teamId, String status);
     JoinRequest findByTeamIdAndUserId(Long teamId, Long userId);
     List<JoinRequest> findByTeamId(Long teamId);
+    JoinRequest findByUserIdAndStatus(Long userId, String status);
+    List<JoinRequest> findByUserId(Long userId);
 }

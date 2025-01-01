@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class JoinRequest {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Long teamId;
     private Long userId; // User requesting to join the team
