@@ -28,7 +28,7 @@ public class UserController {
     }
 
     // Verify user
-    @PostMapping("{userId}/verify/{token}")
+    @PostMapping("/{userId}/verify/{token}")
     public ResponseEntity<?> verifyUser(@PathVariable Long userId, @PathVariable String token) {
         return userService.verify(userId, token);
     }
