@@ -147,28 +147,11 @@ public class UserService {
         if (existingUser == null) {
             return ResponseEntity.badRequest().body("User not found.");
         }
-        if (userRepository.findByEmail(updatedUser.getEmail()) != null) {
-            return ResponseEntity.badRequest().body("Email already exists.");
-        }
-        if (userRepository.findByThaparEmail(updatedUser.getThaparEmail()) != null) {
-            return ResponseEntity.badRequest().body("Thapar Mail already exists.");
-        }
-        if (userRepository.findByPhoneNumber(updatedUser.getPhoneNumber()) != null) {
-            return ResponseEntity.badRequest().body("Phone Number is already used.");
-        }
-        if (userRepository.findByRollNo(updatedUser.getRollNo()) != null) {
-            return ResponseEntity.badRequest().body("Roll Number already exists.");
-        }
-        if (updatedUser.getEmail() == null || updatedUser.getPassword() == null) {
-            return ResponseEntity.badRequest().body("Email and Password are required");
-        }
-        if (updatedUser.getUsername() == null || updatedUser.getUsername().isEmpty() || updatedUser.getEmail().isEmpty() || updatedUser.getPassword().isEmpty()) {
-            return ResponseEntity.badRequest().body("Phone Number is required");
-        }
 
         // Update the fields
         existingUser.setUsername(updatedUser.getUsername());
         existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
+        existingUser.setEmail(updatedUser.getEmail());
         existingUser.setThaparEmail(updatedUser.getThaparEmail());
         existingUser.setRollNo(updatedUser.getRollNo());
         existingUser.setCollegeName(updatedUser.getCollegeName());

@@ -102,24 +102,3 @@ public class TeamController {
         return teamService.getUserJoinRequests(userId);
     }
 }
-
-
-//// On "Yes" Button Click
-//function handleAcceptRequest(teamId, userId) {
-//    fetch(`/teams/${teamId}/respond-request?userId=${userId}&accept=true`, {
-//        method: 'POST',
-//    })
-//    .then(response => response.json())
-//    .then(data => alert(data.message))
-//    .catch(error => console.error("Error:", error));
-//}
-//
-//// On "No" Button Click
-//function handleRejectRequest(teamId, userId) {
-//    fetch(`/teams/${teamId}/respond-request?userId=${userId}&accept=false`, {
-//        method: 'POST',
-//    })
-//    .then(response => response.json())
-//    .then(data => alert(data.message))
-//    .catch(error => console.error("Error:", error));
-//}
