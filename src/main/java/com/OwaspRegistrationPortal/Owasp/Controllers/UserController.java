@@ -4,6 +4,7 @@ import com.OwaspRegistrationPortal.Owasp.Entity.User;
 import com.OwaspRegistrationPortal.Owasp.Services.UserService;
 import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,16 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         return userService.registerUser(user);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUserByIdWithTeam(@PathVariable Long id) {
+        try {
+            User user = userService.getUserById(id);
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     // Send Verification token to user email

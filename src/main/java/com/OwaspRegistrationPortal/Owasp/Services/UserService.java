@@ -43,8 +43,17 @@ public class UserService {
         if (userRepository.findByPhoneNumber(user.getPhoneNumber()) != null) {
             return ResponseEntity.badRequest().body("Phone Number is already used.");
         }
-        if (userRepository.findByRollNo(user.getRollNo()) != null) {
-            return ResponseEntity.badRequest().body("Roll Number already exists.");
+//        if (userRepository.findByRollNo(user.getRollNo()) != null) {
+//            return ResponseEntity.badRequest().body("Roll Number already exists.");
+//        }
+        if (user.getUsername() == null || user.getUsername().isEmpty()) {
+            return ResponseEntity.badRequest().body("Username is required");
+        }
+        if (user.getPhoneNumber() == null || user.getPhoneNumber().isEmpty()) {
+            return ResponseEntity.badRequest().body("Phone Number is required");
+        }
+        if (user.getThaparEmail() == null || user.getThaparEmail().isEmpty()) {
+            return ResponseEntity.badRequest().body("Thapar Email is required");
         }
         if (user.getEmail() == null || user.getPassword() == null || user.getEmail().isEmpty() || user.getPassword().isEmpty()) {
             return ResponseEntity.badRequest().body("Email and Password are required");
@@ -64,6 +73,9 @@ public class UserService {
         return ResponseEntity.ok(response);
     }
 
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+    }
 
     public ResponseEntity<?> sendVerificationToken(Long userId) {
         // Fetch the user by ID
@@ -117,7 +129,6 @@ public class UserService {
         return ResponseEntity.ok(response);
     }
 
-
     public ResponseEntity<?> loginUser(User user) {
         User existingUser = userRepository.findByEmail(user.getEmail());
         if (existingUser == null || !existingUser.getPassword().equals(user.getPassword())) {
@@ -136,11 +147,31 @@ public class UserService {
         if (existingUser == null) {
             return ResponseEntity.badRequest().body("User not found.");
         }
+        if (userRepository.findByEmail(updatedUser.getEmail()) != null) {
+            return ResponseEntity.badRequest().body("Email already exists.");
+        }
+        if (userRepository.findByThaparEmail(updatedUser.getThaparEmail()) != null) {
+            return ResponseEntity.badRequest().body("Thapar Mail already exists.");
+        }
+        if (userRepository.findByPhoneNumber(updatedUser.getPhoneNumber()) != null) {
+            return ResponseEntity.badRequest().body("Phone Number is already used.");
+        }
+        if (userRepository.findByRollNo(updatedUser.getRollNo()) != null) {
+            return ResponseEntity.badRequest().body("Roll Number already exists.");
+        }
+        if (updatedUser.getEmail() == null || updatedUser.getPassword() == null) {
+            return ResponseEntity.badRequest().body("Email and Password are required");
+        }
+        if (updatedUser.getUsername() == null || updatedUser.getUsername().isEmpty() || updatedUser.getEmail().isEmpty() || updatedUser.getPassword().isEmpty()) {
+            return ResponseEntity.badRequest().body("Phone Number is required");
+        }
 
         // Update the fields
         existingUser.setUsername(updatedUser.getUsername());
         existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
-        existingUser.setCollageName(updatedUser.getCollageName());
+        existingUser.setThaparEmail(updatedUser.getThaparEmail());
+        existingUser.setRollNo(updatedUser.getRollNo());
+        existingUser.setCollegeName(updatedUser.getCollegeName());
         existingUser.setYear(updatedUser.getYear());
 
         // Save the updated user to the database

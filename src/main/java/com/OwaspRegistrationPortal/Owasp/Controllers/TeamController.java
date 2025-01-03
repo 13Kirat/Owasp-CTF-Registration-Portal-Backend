@@ -32,6 +32,16 @@ public class TeamController {
         return ResponseEntity.ok(teamService.getAllTeams());
     }
 
+    @GetMapping("/{teamName}")
+    public ResponseEntity<?> getTeamByName(@PathVariable String teamName) {
+        try {
+            ResponseEntity<?> team = teamService.getTeamByName(teamName);
+            return ResponseEntity.ok(team);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
     // Create a team with a leader
     @PostMapping("/create")
     public ResponseEntity<?> createTeam(@RequestBody Team team) {

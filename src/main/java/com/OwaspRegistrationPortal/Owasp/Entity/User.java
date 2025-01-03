@@ -15,8 +15,8 @@ public class User {
     @Column(name = "username") // Map fields to the exact column names in the database
     private String username;
 
-    @Column(name = "collage_name")
-    private String collageName;
+    @Column(name = "college_name")
+    private String collegeName;
 
     @Column(name = "thapar_email", unique = true)
     private String thaparEmail;

@@ -508,4 +508,12 @@ public class TeamService {
         response.put("joinRequests", joinRequestDetails);
         return ResponseEntity.ok().body(response);
     }
+
+    public ResponseEntity<?> getTeamByName(String teamName) {
+        Team team = teamRepository.findByTeamName(teamName);
+        if(team == null){
+            return ResponseEntity.badRequest().body("Team not found");
+        }
+        return ResponseEntity.ok(team);
+    }
 }
